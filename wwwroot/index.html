@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security PRO S.A.C. - ERP</title>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+
+<!-- PANTALLA LOGIN -->
+<div id="loginView" class="login-container">
+  <div class="login-card">
+    <div class="logo-login">🛡️</div>
+    <h1>Security PRO S.A.C.</h1>
+    <p class="subtitle">Sistema ERP - Equipos de Protección Personal</p>
+    <form id="loginForm">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="loginEmail" value="admin@securitypro.pe" required>
+      </div>
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" id="loginPassword" value="Admin123!" required>
+      </div>
+      <button type="submit" class="btn-primary btn-block">Iniciar Sesión</button>
+      <div id="loginError" class="alert-error" style="display:none;"></div>
+    </form>
+    <p class="login-hint">Usuario: admin@securitypro.pe / Contraseña: Admin123!</p>
+  </div>
+</div>
+
+<!-- APLICACIÓN PRINCIPAL -->
+<div id="appView" style="display:none;">
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="logo">🛡️</span>
+      <span class="brand">Security PRO S.A.C.</span>
+    </div>
+    <div class="topbar-right">
+      <span id="userInfo" class="user-info"></span>
+      <button class="btn-logout" onclick="logout()">Cerrar Sesión</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <nav id="menuNav"></nav>
+    </aside>
+    <main class="content" id="mainContent">
+      <div class="welcome">
+        <h2>Bienvenido al Sistema ERP</h2>
+        <p>Seleccione una opción del menú lateral para comenzar.</p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- MODAL GENÉRICO -->
+<div id="modal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Modal</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast" style="display:none;"></div>
+
+<script src="js/site.js"></script>
+</body>
+</html>
