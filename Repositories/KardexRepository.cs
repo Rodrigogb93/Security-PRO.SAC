@@ -1,4 +1,3 @@
-// CAMBIO TEMPORAL DE PRUEBA - SERÁ REVERTIDO
 // Módulo Kardex: control de stock por lote, talla y semáforo de vencimiento
 using Dapper;
 using SecurityPRO.ERP.Web.DTOs;
