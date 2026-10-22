@@ -1,3 +1,4 @@
+// Módulo Cotizaciones: generación de PDF con membrete y QR
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
