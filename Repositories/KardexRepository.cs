@@ -1,3 +1,4 @@
+// Módulo Kardex: control de stock por lote, talla y semáforo de vencimiento
 using Dapper;
 using SecurityPRO.ERP.Web.DTOs;
 using SecurityPRO.ERP.Web.Models;

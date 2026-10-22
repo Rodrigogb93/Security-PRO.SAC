@@ -1,3 +1,4 @@
+// Módulo Facturación: estructura XML UBL 2.1 para SUNAT
 namespace SecurityPRO.ERP.Web.Services;
 
 // Servicio de facturación electrónica SUNAT
