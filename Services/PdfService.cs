@@ -1,3 +1,4 @@
+// Módulo SSOMA: generación de certificados PDF con código QR
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
