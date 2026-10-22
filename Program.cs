@@ -1,3 +1,4 @@
+// Módulo Auth: configuración JWT con claims de rol y expiración
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using SecurityPRO.ERP.Web.Middleware;
