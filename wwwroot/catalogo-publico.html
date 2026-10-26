@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Catálogo público | Security PRO S.A.C.</title>
+    <style>
+      :root {
+        font-family:
+          Inter,
+          Segoe UI,
+          Arial,
+          sans-serif;
+        color: #13314b;
+        background: #f4f8fc;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      header {
+        background: #0b2844;
+        color: white;
+        padding: 19px max(5vw, 20px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      header b {
+        font-size: 21px;
+      }
+
+      header a {
+        color: #bce8ff;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .hero {
+        background: linear-gradient(115deg, #0c3a60, #087fb7);
+        color: white;
+        padding: 60px max(5vw, 20px);
+      }
+
+      .hero h1 {
+        font-size: clamp(32px, 5vw, 56px);
+        margin: 0 0 12px;
+      }
+
+      .hero p {
+        font-size: 18px;
+        max-width: 670px;
+        line-height: 1.6;
+      }
+
+      .wrap {
+        max-width: 1200px;
+        margin: auto;
+        padding: 36px 22px;
+      }
+
+      .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+
+      .toolbar h2 {
+        margin: 0;
+      }
+
+      .toolbar input {
+        padding: 13px 17px;
+        border: 1px solid #c6d7e5;
+        border-radius: 12px;
+        min-width: 250px;
+        font-size: 15px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 22px;
+      }
+
+      .product {
+        background: white;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 10px 28px #153e6114;
+        border: 1px solid #e3edf4;
+      }
+
+      .product img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+      }
+
+      .detail {
+        padding: 20px;
+      }
+
+      .tag {
+        font-size: 11px;
+        font-weight: 700;
+        color: #0079a8;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+      }
+
+      .detail h3 {
+        margin: 10px 0;
+      }
+
+      .detail p {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #5d7082;
+        min-height: 65px;
+      }
+
+      .detail button {
+        width: 100%;
+        background: #087db4;
+        color: white;
+        border: 0;
+        border-radius: 10px;
+        padding: 12px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .detail button:hover {
+        background: #065b8b;
+      }
+
+      footer {
+        text-align: center;
+        padding: 25px;
+        color: #60768a;
+      }
+
+      small {
+        opacity: 0.85;
+      }
+
+      /* Ventana de cotización */
+      .cotizacion-fondo {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(5, 20, 40, 0.65);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .cotizacion-fondo.abierto {
+        display: flex;
+      }
+
+      .cotizacion-ventana {
+        width: 100%;
+        max-width: 540px;
+        max-height: 90vh;
+        overflow-y: auto;
+        background: white;
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 20px 60px #0003;
+      }
+
+      .cotizacion-cabecera {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .cotizacion-cabecera h2 {
+        margin: 0;
+        color: #082d4c;
+      }
+
+      .cerrar-cotizacion {
+        background: #eef3f8;
+        color: #334155;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 13px;
+        cursor: pointer;
+      }
+
+      .producto-elegido {
+        background: #eaf5ff;
+        color: #075985;
+        padding: 14px;
+        border-radius: 10px;
+        margin: 18px 0;
+        font-weight: bold;
+      }
+
+      .cotizacion-campos {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .cotizacion-campo {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .cotizacion-campo label {
+        font-size: 13px;
+        font-weight: bold;
+        color: #334155;
+      }
+
+      .cotizacion-campo input,
+      .cotizacion-campo textarea {
+        padding: 11px;
+        border: 1px solid #cbd5e1;
+        border-radius: 9px;
+        font: inherit;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .cotizacion-campo.completo {
+        grid-column: 1 / -1;
+      }
+
+      .enviar-cotizacion {
+        width: 100%;
+        margin-top: 20px;
+        padding: 14px;
+        border: none;
+        border-radius: 10px;
+        background: #0284c7;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .mensaje-cotizacion {
+        margin-top: 14px;
+        color: #047857;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      @media (max-width: 550px) {
+        .cotizacion-campos {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <b>🛡️ Security PRO S.A.C.</b><a href="index.html">Acceso al ERP →</a>
+    </header>
+    <section class="hero">
+      <small>SEGURIDAD INDUSTRIAL · EQUIPOS DE PROTECCIÓN PERSONAL</small>
+      <h1>Protección para cada trabajo.</h1>
+      <p>
+        Explora nuestro catálogo de equipos de protección personal y solicita
+        una cotización. Esta es una vista pública de demostración para clientes.
+      </p>
+    </section>
+    <main class="wrap">
+      <div class="toolbar">
+        <div>
+          <h2>Nuestros equipos de protección</h2>
+          <p>Selecciona un producto para consultar sus características.</p>
+        </div>
+        <input
+          id="buscar"
+          placeholder="Buscar cascos, botas, guantes…"
+          aria-label="Buscar productos"
+        />
+      </div>
+      <div class="grid" id="catalogo">
+        <article class="product" data-search="casco de seguridad">
+          <img
+            src="img/productos/casco.jpg"
+            alt="Ilustración de Casco de seguridad"
+          />
+          <div class="detail">
+            <span class="tag">EPP · Seguridad industrial</span>
+            <h3>Casco de seguridad</h3>
+            <p>
+              Consulta disponibilidad, tallas y especificaciones con nuestro
+              equipo.
+            </p>
+            <button onclick="consultar('Casco de seguridad')">
+              Solicitar cotización ↗
+            </button>
+          </div>
+        </article>
+        <article class="product" data-search="guantes de protección">
+          <img
+            src="img/productos/guantes.jpg"
+            alt="Ilustración de Guantes de protección"
+          />
+          <div class="detail">
+            <span class="tag">EPP · Seguridad industrial</span>
+            <h3>Guantes de protección</h3>
+            <p>
+              Consulta disponibilidad, tallas y especificaciones con nuestro
+              equipo.
+            </p>
+            <button onclick="consultar('Guantes de protección')">
+              Solicitar cotización ↗
+            </button>
+          </div>
+        </article>
+        <article class="product" data-search="botas de seguridad">
+          <img
+            src="img/productos/botas.jpg"
+            alt="Ilustración de Botas de seguridad"
+          />
+          <div class="detail">
+            <span class="tag">EPP · Seguridad industrial</span>
+            <h3>Botas de seguridad</h3>
+            <p>
+              Consulta disponibilidad, tallas y especificaciones con nuestro
+              equipo.
+            </p>
+            <button onclick="consultar('Botas de seguridad')">
+              Solicitar cotización ↗
+            </button>
+          </div>
+        </article>
+        <article class="product" data-search="lentes de protección">
+          <img
+            src="img/productos/lentes.jpg"
+            alt="Ilustración de Lentes de protección"
+          />
+          <div class="detail">
+            <span class="tag">EPP · Seguridad industrial</span>
+            <h3>Lentes de protección</h3>
+            <p>
+              Consulta disponibilidad, tallas y especificaciones con nuestro
+              equipo.
+            </p>
+            <button onclick="consultar('Lentes de protección')">
+              Solicitar cotización ↗
+            </button>
+          </div>
+        </article>
+        <article class="product" data-search="chaleco reflectivo">
+          <img
+            src="img/productos/chaleco.jpg"
+            alt="Ilustración de Chaleco reflectivo"
+          />
+          <div class="detail">
+            <span class="tag">EPP · Seguridad industrial</span>
+            <h3>Chaleco reflectivo</h3>
+            <p>
+              Consulta disponibilidad, tallas y especificaciones con nuestro
+              equipo.
+            </p>
+            <button onclick="consultar('Chaleco reflectivo')">
+              Solicitar cotización ↗
+            </button>
+          </div>
+        </article>
+        <article class="product" data-search="protección respiratoria">
+          <img
+            src="img/productos/respirador.jpg"
+            alt="Ilustración de Protección respiratoria"
+          />
+          <div class="detail">
+            <span class="tag">EPP · Seguridad industrial</span>
+            <h3>Protección respiratoria</h3>
+            <p>
+              Consulta disponibilidad, tallas y especificaciones con nuestro
+              equipo.
+            </p>
+            <button onclick="consultar('Protección respiratoria')">
+              Solicitar cotización ↗
+            </button>
+          </div>
+        </article>
+        <article class="product" data-search="arnés de seguridad">
+          <img
+            src="img/productos/arnes.jpg"
+            alt="Ilustración de Arnés de seguridad"
+          />
+          <div class="detail">
+            <span class="tag">EPP · Seguridad industrial</span>
+            <h3>Arnés de seguridad</h3>
+            <p>
+              Consulta disponibilidad, tallas y especificaciones con nuestro
+              equipo.
+            </p>
+            <button onclick="consultar('Arnés de seguridad')">
+              Solicitar cotización ↗
+            </button>
+          </div>
+        </article>
+        <article class="product" data-search="protección auditiva">
+          <img
+            src="img/productos/auditivo.jpg"
+            alt="Ilustración de Protección auditiva"
+          />
+          <div class="detail">
+            <span class="tag">EPP · Seguridad industrial</span>
+            <h3>Protección auditiva</h3>
+            <p>
+              Consulta disponibilidad, tallas y especificaciones con nuestro
+              equipo.
+            </p>
+            <button onclick="consultar('Protección auditiva')">
+              Solicitar cotización ↗
+            </button>
+          </div>
+        </article>
+      </div>
+      <p id="vacio" style="display: none">No se encontraron productos.</p>
+    </main>
+    <footer>
+      Security PRO S.A.C. · Catálogo público de demostración · Los productos e
+      imágenes son ilustrativos, sin precios ni stock en tiempo real.
+    </footer>
+    <script>
+      const buscar = document.getElementById("buscar");
+      buscar.addEventListener("input", () => {
+        let n = 0;
+        document.querySelectorAll(".product").forEach((x) => {
+          const show = x.dataset.search.includes(
+            buscar.value.toLowerCase().trim(),
+          );
+          x.style.display = show ? "" : "none";
+          n += show ? 1 : 0;
+        });
+        document.getElementById("vacio").style.display = n ? "none" : "block";
+      });
+
+      function consultar(producto) {
+        document.getElementById("formCotizacion").reset();
+
+        document.getElementById("productoSeleccionado").textContent = producto;
+
+        document.getElementById("mensajeCotizacion").textContent = "";
+
+        document.getElementById("modalCotizacion").classList.add("abierto");
+        document.querySelector(
+          "#formCotizacion button[type='submit']",
+        ).disabled = false;
+        document.querySelector(
+          "#formCotizacion button[type='submit']",
+        ).textContent = "Enviar solicitud";
+      }
+
+      function cerrarCotizacion() {
+        document.getElementById("modalCotizacion").classList.remove("abierto");
+      }
+
+      document
+        .getElementById("formCotizacion")
+        .addEventListener("submit", function (evento) {
+          evento.preventDefault();
+
+          const nombre = document.getElementById("nombreCliente").value;
+          const producto = document.getElementById(
+            "productoSeleccionado",
+          ).textContent;
+
+          document.getElementById("mensajeCotizacion").textContent =
+            "¡Gracias, " +
+            nombre +
+            "! Tu solicitud de " +
+            producto +
+            " fue registrada en esta demostración.";
+
+          this.querySelector("button[type='submit']").disabled = true;
+          this.querySelector("button[type='submit']").textContent =
+            "Solicitud demostrada";
+        });
+    </script>
+
+    <div id="modalCotizacion" class="cotizacion-fondo">
+      <div
+        class="cotizacion-ventana"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tituloCotizacion"
+      >
+        <div class="cotizacion-cabecera">
+          <h2 id="tituloCotizacion">Solicitar cotización</h2>
+          <button
+            type="button"
+            class="cerrar-cotizacion"
+            onclick="cerrarCotizacion()"
+          >
+            ✕
+          </button>
+        </div>
+
+        <p>Completa tus datos para solicitar información.</p>
+
+        <div class="producto-elegido">
+          Producto: <span id="productoSeleccionado"></span>
+        </div>
+
+        <form id="formCotizacion">
+          <div class="cotizacion-campos">
+            <div class="cotizacion-campo">
+              <label for="nombreCliente">Nombre completo</label>
+              <input id="nombreCliente" required />
+            </div>
+
+            <div class="cotizacion-campo">
+              <label for="correoCliente">Correo electrónico</label>
+              <input id="correoCliente" type="email" required />
+            </div>
+
+            <div class="cotizacion-campo">
+              <label for="cantidadCliente">Cantidad</label>
+              <input
+                id="cantidadCliente"
+                type="number"
+                min="1"
+                value="1"
+                required
+              />
+            </div>
+
+            <div class="cotizacion-campo">
+              <label for="telefonoCliente">Teléfono</label>
+              <input id="telefonoCliente" type="tel" required />
+            </div>
+
+            <div class="cotizacion-campo completo">
+              <label for="observacionesCliente">Observaciones</label>
+              <textarea
+                id="observacionesCliente"
+                rows="3"
+                placeholder="Tallas, modelos u otros detalles"
+              ></textarea>
+            </div>
+          </div>
+
+          <button class="enviar-cotizacion" type="submit">
+            Enviar solicitud
+          </button>
+
+          <p
+            id="mensajeCotizacion"
+            class="mensaje-cotizacion"
+            role="status"
+          ></p>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

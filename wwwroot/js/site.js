@@ -1094,6 +1094,27 @@ async function guardarCliente(id) {
 }
 
 // ============ CATÁLOGO EPP ============
+// Imágenes locales del catálogo; no modifica la base de datos.
+
+function imagenProducto(p) {
+  const sku = (p.sku || "").toUpperCase();
+
+  const imagenesPorSku = {
+    "CALZ-STEELP-45": "botas.jpg",
+    "CASC-3M-H700": "casco.jpg",
+    "FILT-3M-2091": "filtro.jpg",
+    "LENT-3M-VIRTUA": "lentes.jpg",
+    "LINE-DELTA-10M": "arnes.jpg",
+    "RESP-3M-6200": "respirador.jpg",
+    "TAPO-3M-1100": "auditivo.jpg",
+    123: "casco.jpg",
+  };
+
+  const archivo = imagenesPorSku[sku];
+
+  return archivo ? `img/productos/${archivo}` : "img/productos/casco.svg";
+}
+
 async function renderCatalogo() {
   const el = document.getElementById("mainContent");
   el.innerHTML = `
@@ -1114,10 +1135,11 @@ async function cargarProductos() {
   try {
     const data = await apiCall("/productos");
     document.getElementById("prodTable").innerHTML = `
-      <table><thead><tr><th>SKU</th><th>Producto</th><th>Categoría</th><th>Marca</th><th>Normativa</th><th>Talla</th><th>P. Venta</th><th>Acciones</th></tr></thead>
+      <table><thead><tr><th>Imagen</th><th>SKU</th><th>Producto</th><th>Categoría</th><th>Marca</th><th>Normativa</th><th>Talla</th><th>P. Venta</th><th>Acciones</th></tr></thead>
       <tbody>${data
         .map(
           (p) => `<tr>
+        <td><img src="${imagenProducto(p)}" alt="Imagen EPP" style="width:105px;height:85px;object-fit:contain;border-radius:10px;background:#f1f5f9;padding:5px"></td>
         <td><strong>${escapeHtml(p.sku)}</strong></td>
         <td>${escapeHtml(p.nombre)}</td>
         <td><span class="badge badge-info">${escapeHtml(p.nombreCategoria || "")}</span></td>
