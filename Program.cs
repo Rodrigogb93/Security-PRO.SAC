@@ -64,6 +64,8 @@ builder.Services.AddAuthorization();
 Console.WriteLine("HASH ADMIN: " + BCrypt.Net.BCrypt.HashPassword("Admin123!"));
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
