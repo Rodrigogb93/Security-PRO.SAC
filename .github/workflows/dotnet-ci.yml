@@ -1,0 +1,29 @@
+name: .NET CI - SecurityPRO
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restaurar dependencias
+      run: dotnet restore
+
+    - name: Compilar en modo Release
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Publicar artefacto
+      run: dotnet publish -c Release -o ./publicado --no-build
